@@ -1,4 +1,4 @@
-# OS Scheduling Algorithms
+# OS Scheduling
 This repository includes implementations and simulations
 of various scheduling algorithms. The list of current implementations is shown below.
 

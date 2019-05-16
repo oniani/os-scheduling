@@ -45,28 +45,20 @@ public class DiskScheduler {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
 
-        // A variable to store the total number of moves
-        int totalMovement = 0;
-
         /* * * * * * * * * * * * * * * *
          *           F C F S           *
          * * * * * * * * * * * * * * * */
 
         for (int intRequest : intRequestList) {
-            totalMovement += Math.abs(this.currentCylinder - intRequest);
+            // Update the total number of moves
+            this.totalMoves += Math.abs(this.currentCylinder - intRequest);
             this.currentCylinder = intRequest;
         }
-
-        // Update the total number of moves
-        this.totalMoves = totalMovement;
     }
 
     public void useSSTF(String requestQueue) {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
-
-        // A variable to store the total number of moves
-        int totalMovement = 0;
 
         // Array of arrays
         int[][] lookupMatrix = new int[intRequestList.length][2];
@@ -86,7 +78,7 @@ public class DiskScheduler {
             for (int j = 0; j < lookupMatrix.length; j++)
                 lookupMatrix[j][0] = Math.abs(intRequestList[j] - this.currentCylinder);
 
-            // Find the minimum distance in the list of lists
+            // Find the minimum distance in the matrix
             // We use a simple guess-and-check pattern here
             int index = -1;
             int minimumDistance = Integer.MAX_VALUE;
@@ -101,29 +93,23 @@ public class DiskScheduler {
             // Mark as visited
             lookupMatrix[index][1] = 1;
 
-            // Increase the total count
-            totalMovement += lookupMatrix[index][0];
+            // Update the total number of moves
+            this.totalMoves += lookupMatrix[index][0];
 
             // Make the value at the current index a new currentCylinder (or head)
             this.currentCylinder = intRequestList[index];
         }
-
-        // Update the total number of moves
-        this.totalMoves = totalMovement;
     }
 
     public void useLOOK(String requestQueue) {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
 
-        // A variable to store the total number of moves
-        int totalMovement = 0;
-
         // Sort the integer ArrayList of requests
         Arrays.sort(intRequestList);
 
         // Current index
-        int index = 0;
+        int index = -1;
 
         /* * * * * * * * * * * * * * * *
          *           L O O K           *
@@ -141,13 +127,15 @@ public class DiskScheduler {
         if (this.currentCylinder - this.previousCylinder < 0) {
             // First loop (go to the left)
             for (int i = index; i >= 0; i--) {
-                totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+                // Update the total number of moves
+                this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
                 this.currentCylinder = intRequestList[i];
             }
 
             // Second loop (go to the right)
             for (int i = index + 1; i < intRequestList.length; i++) {
-                totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+                // Update the total number of moves
+                this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
                 this.currentCylinder = intRequestList[i];
             }
         }
@@ -156,33 +144,29 @@ public class DiskScheduler {
         else {
             // First loop (go to the right)
             for (int i = index + 1; i < intRequestList.length; i++) {
-                totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+                // Update the total number of moves
+                this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
                 this.currentCylinder = intRequestList[i];
             }
 
             // Second loop (go to the left)
             for (int i = index; i >= 0; i--) {
-                totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+                // Update the total number of moves
+                this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
                 this.currentCylinder = intRequestList[i];
             }
         }
-
-        // Update the total number of moves
-        this.totalMoves = totalMovement;
     }
 
     public void useCLOOK(String requestQueue) {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
 
-        // A variable to store the total number of moves
-        int totalMovement = 0;
-
         // Sort the integer ArrayList of requests
         Arrays.sort(intRequestList);
 
         // Current index
-        int index = 0;
+        int index = -1;
 
         /* * * * * * * * * * * * * * * * *
          *           C L O O K           *
@@ -198,18 +182,17 @@ public class DiskScheduler {
 
         // First loop (go to the right)
         for (int i = index; i < intRequestList.length; i++) {
-            totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+            // Update the total number of moves
+            this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
             this.currentCylinder = intRequestList[i];
         }
 
         // Second loop (go to the right)
         for (int i = 0; i < index; i++) {
-            totalMovement += Math.abs(this.currentCylinder - intRequestList[i]);
+            // Update the total number of moves
+            this.totalMoves += Math.abs(this.currentCylinder - intRequestList[i]);
             this.currentCylinder = intRequestList[i];
         }
-
-        // Update the total number of moves
-        this.totalMoves = totalMovement;
     }
 
 }
