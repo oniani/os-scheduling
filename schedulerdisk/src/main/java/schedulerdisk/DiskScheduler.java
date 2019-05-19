@@ -12,6 +12,9 @@
  * Description:
  * The package simulates four disk scheduling algorithms.
  * These algorithms include FCFS, SSTF, LOOK, and CLOOK.
+ * Note that the current implementations could be heavily
+ * optimized, but they are intentionally kept this way for
+ * the sake of making them "true" simulations.
  * 
  */
 
@@ -105,7 +108,7 @@ public class DiskScheduler {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
 
-        // Sort the integer ArrayList of requests
+        // Sort the integer array of requests
         Arrays.sort(intRequestList);
 
         // Current index
@@ -125,6 +128,12 @@ public class DiskScheduler {
 
         // Do we go left?
         if (this.currentCylinder - this.previousCylinder < 0) {
+            // Note that since the intRequestList is sorted, the two loops
+            // below could be rewritten as two simple statements (or could be
+            // taken to extreme and be written as one bigger statement), but that
+            // way, the purpose of the project (simulations) will be disregarded.
+            // Therefore, we keep the code below as is, without optimization of any kind.
+
             // First loop (go to the left)
             for (int i = index; i >= 0; i--) {
                 // Update the total number of moves
@@ -142,6 +151,12 @@ public class DiskScheduler {
 
         // Or do we go right?
         else {
+            // Note that since the intRequestList is sorted, the two loops
+            // below could be rewritten as two simple statements (or could be
+            // taken to extreme and be written as one bigger statement), but that
+            // way, the purpose of the project (simulations) will be disregarded.
+            // Therefore, we keep the code below as is, without optimization of any kind.
+
             // First loop (go to the right)
             for (int i = index + 1; i < intRequestList.length; i++) {
                 // Update the total number of moves
@@ -162,7 +177,7 @@ public class DiskScheduler {
         // Convert a reference string to the array of integers
         int[] intRequestList = Arrays.stream(requestQueue.split(",")).mapToInt(Integer::parseInt).toArray();
 
-        // Sort the integer ArrayList of requests
+        // Sort the integer array of requests
         Arrays.sort(intRequestList);
 
         // Current index
@@ -179,6 +194,12 @@ public class DiskScheduler {
                 break;
             }
         }
+
+        // Note that since the intRequestList is sorted, the two loops
+        // below could be rewritten as three simple statements (or could be
+        // taken to extreme and be written as one bigger statement), but that
+        // way, the purpose of the project (simulations) will be disregarded.
+        // Therefore, we keep the code below as is, without optimization of any kind.
 
         // First loop (go to the right)
         for (int i = index; i < intRequestList.length; i++) {
